@@ -8,30 +8,39 @@ import { motion } from 'framer-motion';
 const Footer = () => {
   const footerSections = [
     {
-      title: 'Collections',
+      title: 'Collezioni',
       links: [
-        { name: 'New Arrivals', href: '/collections/new' },
-        { name: 'Lab Grown Diamonds', href: '/collections/lab-grown' },
-        { name: 'Rings', href: '/collections/rings' },
-        { name: 'Necklaces', href: '/collections/necklaces' },
+        { name: 'Anelli', href: '/collezioni/anelli' },
+        { name: 'Collane', href: '/collezioni/collane' },
+        { name: 'Bracciali', href: '/collezioni/bracciali' },
+        { name: 'Nuovi Arrivi', href: '/collezioni/nuovi-arrivi' },
       ],
     },
     {
-      title: 'About',
+      title: 'Diamanti Lab Grown',
       links: [
-        { name: 'Our Story', href: '/about' },
-        { name: 'Sustainability', href: '/sustainability' },
-        { name: 'Craftsmanship', href: '/craftsmanship' },
-        { name: 'Blog', href: '/blog' },
+        { name: 'Scopri i Lab Grown', href: '/lab-grown' },
+        { name: 'Guida ai Diamanti', href: '/lab-grown/guida' },
+        { name: 'Sostenibilità', href: '/lab-grown/sostenibilita' },
+        { name: 'FAQ Diamanti', href: '/lab-grown/faq' },
       ],
     },
     {
-      title: 'Support',
+      title: 'Chi Siamo',
       links: [
-        { name: 'Contact', href: '/contact' },
-        { name: 'FAQ', href: '/faq' },
-        { name: 'Shipping', href: '/shipping' },
-        { name: 'Returns', href: '/returns' },
+        { name: 'La Nostra Storia', href: '/su-di-noi/essenza' },
+        { name: 'Artigianalità', href: '/su-di-noi/artigianalita' },
+        { name: 'Magazine', href: '/magazine' },
+        { name: 'Contatti', href: '/contatti' },
+      ],
+    },
+    {
+      title: 'Assistenza',
+      links: [
+        { name: 'Spedizioni', href: '/assistenza/spedizioni' },
+        { name: 'Resi', href: '/assistenza/resi' },
+        { name: 'Privacy', href: '/assistenza/privacy' },
+        { name: 'FAQ', href: '/assistenza/faq' },
       ],
     },
   ];

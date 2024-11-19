@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Logo from '../components/Logo';
+import CircleLoader from '../components/ui/CircleLoader';
 
 const TypedIntro = dynamic(() => import('../components/TypedIntro'), {
   ssr: false
@@ -89,6 +90,9 @@ export default function Home() {
         {/* Product Cards Section */}
         <section className="py-24 bg-gradient-to-b from-black to-zinc-900">
           <div className="container mx-auto px-4">
+            <div className="flex justify-center mb-12">
+              <CircleLoader />
+            </div>
             <div 
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
               data-aos="fade-up"

@@ -3,9 +3,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../Logo';
+import CookieConsentOverlay from './CookieConsentOverlay';
+import useCookieConsent from '@/hooks/useCookieConsent';
 
-const LOADING_DURATION = 3500; // Increased duration
-const MESSAGE_INTERVAL = 1200; // Slower message rotation
+const LOADING_DURATION = 3500;
+const MESSAGE_INTERVAL = 1200;
 
 const messages = [
   "Preparando un'esperienza unica",
@@ -75,6 +77,7 @@ const variants = {
 const LoadingScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [messageIndex, setMessageIndex] = useState(0);
+  const { cookieConsent, isLoading: cookieLoading, isFirstVisit, saveConsent } = useCookieConsent();
 
   const rotateMessage = useCallback(() => {
     setMessageIndex(prev => (prev + 1) % messages.length);
@@ -90,68 +93,85 @@ const LoadingScreen: React.FC = () => {
     };
   }, [rotateMessage]);
 
-  return (
-    <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50 gap-24"
-          variants={variants.container}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          {/* Logo Container */}
-          <div className="relative w-80 h-80">
-            <motion.div
-              className="absolute inset-0 -m-12 bg-gradient-to-r from-golden/20 via-white/20 to-golden/20 rounded-lg blur-xl"
-              variants={variants.glow}
-              animate="animate"
-            />
-            
-            <motion.div
-              className="relative w-full h-full flex items-center justify-center"
-              variants={variants.logo}
-              initial="hidden"
-              animate="visible"
-            >
-              <Logo />
-            </motion.div>
-          </div>
+  // Funzione per resettare il localStorage
+  const resetLocalStorage = () => {
+    localStorage.removeItem('first-visit');
+    localStorage.removeItem('cookie-consent');
+    window.location.reload();
+  };
 
-          {/* Progress Bar Container */}
-          <div className="relative w-96 h-1.5">
+  // Se stiamo ancora caricando le preferenze dei cookie, mostra uno stato di loading
+  if (cookieLoading) {
+    return null;
+  }
+
+  return (
+    <>
+      {/* Pulsante temporaneo per il reset - solo in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <button
+          onClick={resetLocalStorage}
+          className="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Reset Cookie Consent
+        </button>
+      )}
+      
+      {isFirstVisit && !cookieConsent && <CookieConsentOverlay onAccept={saveConsent} />}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            className="fixed inset-0 bg-black flex flex-col items-center justify-center z-40 overflow-hidden"
+            variants={variants.container}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {/* Logo e Messaggi Container */}
+            <div className="flex flex-col items-center justify-center gap-12 mb-8">
+              {/* Logo con Glow Effect */}
+              <div className="relative">
+                <motion.div
+                  className="absolute inset-0 bg-white/10 rounded-full blur-xl"
+                  variants={variants.glow}
+                  animate="animate"
+                />
+                <motion.div variants={variants.logo}>
+                  <Logo />
+                </motion.div>
+              </div>
+
+              {/* Messaggi Rotanti */}
+              <motion.div
+                className="h-8 overflow-hidden text-white/80"
+                variants={variants.message}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={messageIndex}
+                    variants={variants.text}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="text-lg text-center"
+                  >
+                    {messages[messageIndex]}
+                  </motion.p>
+                </AnimatePresence>
+              </motion.div>
+            </div>
+
+            {/* Progress Bar */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-golden/50 via-golden to-golden/50 rounded-full"
+              className="absolute bottom-0 left-0 h-0.5 bg-white/20 w-full origin-left"
               variants={variants.progressBar}
               initial="hidden"
               animate="visible"
             />
-          </div>
-
-          {/* Message Container */}
-          <motion.div
-            className="flex flex-col items-center space-y-6"
-            variants={variants.message}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.p 
-              key={messages[messageIndex]}
-              variants={variants.text}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="text-gray-300 font-light text-2xl italic tracking-wide"
-            >
-              {messages[messageIndex]}
-            </motion.p>
-            <p className="text-white font-cormorant text-3xl tracking-widest">
-              IO Sì Gioielli
-            </p>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

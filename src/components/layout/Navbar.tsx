@@ -1,122 +1,133 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import Logo from '../Logo';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
-const menuItems = [
+const navigationItems = [
   { name: 'Collezioni', path: '/collezioni' },
-  { name: 'Su di Noi', path: '/su-di-noi' },
+  { name: 'Essenza', path: '/su-di-noi/essenza' },
   { name: 'Lab Grown', path: '/lab-grown' },
-  { name: 'Contatti', path: '/contatti' },
-];
+  { name: 'Contact', path: '/contatti' },
+] as const;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  const handleScroll = useCallback(() => {
+    const scrollThreshold = window.innerHeight * 0.1;
+    setIsScrolled(window.scrollY > scrollThreshold);
   }, []);
 
-  const navbarClasses = `fixed w-full z-50 transition-all duration-300 ${
-    isScrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-6'
-  }`;
-
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      x: '100%',
-      transition: {
-        duration: 0.3,
-        ease: 'easeInOut',
-      },
-    },
-    open: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: 'easeInOut',
-      },
-    },
-  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   return (
-    <nav className={navbarClasses}>
-      <div className="container mx-auto px-4">
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`fixed w-full z-[100] transition-all duration-500 ease-in-out ${
+        isScrolled 
+          ? 'bg-black shadow-2xl py-4' 
+          : 'bg-gradient-to-b from-black via-black/95 to-black/90 py-6'
+      }`}
+    >
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="z-50">
-            <Logo />
-          </Link>
+          {/* Logo a sinistra con barra rossa fissa */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="relative z-[101]"
+          >
+            <Link 
+              href="/"
+              className="relative group block"
+            >
+              <span className="text-white font-cormorant text-2xl tracking-wider">IO Sì</span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 transform scale-x-100" />
+            </Link>
+          </motion.div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item) => (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-12 relative z-[101]">
+            {navigationItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`font-cormorant text-base tracking-wider transition-all duration-300 
-                  ${pathname === item.path 
-                    ? 'text-golden font-medium' 
-                    : 'text-white hover:text-golden'
-                  }`}
+                className="group relative overflow-hidden py-2"
               >
-                {item.name}
+                <span
+                  className={`font-cormorant text-base tracking-widest transition-colors duration-500
+                    ${pathname === item.path ? 'text-golden' : 'text-white group-hover:text-golden'}`}
+                >
+                  {item.name}
+                </span>
+                <span
+                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-red-600 transform transition-transform duration-300
+                    ${pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}
+                />
               </Link>
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
+          {/* Mobile Menu Toggle */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden z-50 w-8 h-8 flex flex-col justify-center items-center"
+            className="md:hidden relative z-[101] w-10 h-10 flex flex-col justify-center items-center"
             aria-label="Toggle menu"
           >
-            <span
-              className={`block w-6 h-0.5 bg-white transform transition-all duration-300 ${
-                isMobileMenuOpen ? 'rotate-45 translate-y-0.5' : '-translate-y-1'
-              }`}
+            <motion.span
+              animate={{
+                rotate: isMobileMenuOpen ? 45 : 0,
+                y: isMobileMenuOpen ? 2 : -4,
+              }}
+              className="w-6 h-0.5 bg-golden block transition-all duration-300"
             />
-            <span
-              className={`block w-6 h-0.5 bg-white transform transition-all duration-300 ${
-                isMobileMenuOpen ? '-rotate-45' : 'translate-y-1'
-              }`}
+            <motion.span
+              animate={{
+                rotate: isMobileMenuOpen ? -45 : 0,
+                y: isMobileMenuOpen ? -2 : 4,
+              }}
+              className="w-6 h-0.5 bg-golden block transition-all duration-300"
             />
-          </button>
+          </motion.button>
 
           {/* Mobile Menu */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
-                initial="closed"
-                animate="open"
-                exit="closed"
-                variants={menuVariants}
-                className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed inset-0 bg-black/95 backdrop-blur-md md:hidden z-[100] flex items-center justify-center"
               >
-                <div className="flex flex-col items-center justify-center h-full space-y-8">
-                  {menuItems.map((item) => (
-                    <Link
+                <div className="flex flex-col items-center justify-center space-y-8">
+                  {navigationItems.map((item, i) => (
+                    <motion.div
                       key={item.path}
-                      href={item.path}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`font-cormorant text-2xl tracking-wider transition-all duration-300 
-                        ${pathname === item.path 
-                          ? 'text-golden font-medium' 
-                          : 'text-white hover:text-golden'
-                        }`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
                     >
-                      {item.name}
-                    </Link>
+                      <Link
+                        href={item.path}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`font-cormorant text-3xl tracking-widest transition-colors duration-500
+                          ${pathname === item.path 
+                            ? 'text-golden' 
+                            : 'text-white hover:text-golden'
+                          }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -124,7 +135,7 @@ const Navbar = () => {
           </AnimatePresence>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
