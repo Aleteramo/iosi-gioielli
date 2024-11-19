@@ -30,5 +30,10 @@ export function generateStaticParams() {
 
 export default function ProductPage({ params }: Props) {
   const product = getProductBySlugSync(params.slug);
+  
+  if (!product) {
+    return <div>Prodotto non trovato</div>;
+  }
+  
   return <ProductPageClient product={product} />;
 }

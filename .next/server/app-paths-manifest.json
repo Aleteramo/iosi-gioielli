@@ -1,7 +1,6 @@
 {
-  "/not-found": "app/not-found.js",
-  "/lab-grown/page": "app/lab-grown/page.js",
   "/page": "app/page.js",
+  "/lab-grown/page": "app/lab-grown/page.js",
   "/collezioni/page": "app/collezioni/page.js",
   "/collezioni/[category]/[slug]/page": "app/collezioni/[category]/[slug]/page.js"
 }
