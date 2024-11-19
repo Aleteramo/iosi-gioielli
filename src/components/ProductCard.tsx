@@ -31,12 +31,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ href, title, description }) =
   }, []);
 
   return (
-    <Link href={href} className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-      <div ref={tiltRef} className="w-full">
-        <h2 className="mb-3 text-2xl font-semibold">
+    <Link href={href}>
+      <div ref={tiltRef} className="product-card rounded-xl p-6 h-full">
+        <h2 className={`mb-4 text-2xl ${title.includes('IO Sì') ? 'iosi-underline' : ''}`}>
           {title}
         </h2>
-        <p className="m-0 max-w-[30ch] text-sm opacity-50">
+        <p className="m-0">
           {description}
         </p>
       </div>

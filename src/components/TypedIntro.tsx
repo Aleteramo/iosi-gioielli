@@ -9,15 +9,17 @@ const TypedIntro = () => {
   useEffect(() => {
     const typed = new Typed(el.current, {
       strings: [
-        'Quando un gioiello è bellezza e rispetto',
-        'Diamanti sostenibili del futuro',
-        'Eccellenza artigianale Made in Italy'
+        'Benvenuti nel mondo di IO Sì',
+        'Dove l\'eleganza incontra la sostenibilità',
+        'Diamanti lab grown, creazioni uniche',
+        'IO Sì, il futuro del lusso sostenibile'
       ],
-      typeSpeed: 70,
-      backSpeed: 40,
-      backDelay: 3000,
-      startDelay: 800,
+      typeSpeed: 50,
+      backSpeed: 30,
+      backDelay: 2000,
       loop: true,
+      showCursor: true,
+      cursorChar: '|'
     });
 
     return () => {
@@ -26,32 +28,26 @@ const TypedIntro = () => {
   }, []);
 
   return (
-    <div className="min-h-[calc(100vh-6rem)] flex items-center justify-center relative bg-black">
+    <div className="relative h-screen flex items-center justify-center bg-black">
       <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-[url('/images/IMG_1898.jpg')] bg-cover bg-center opacity-10"
-          style={{ 
-            filter: 'contrast(120%) brightness(50%)',
-            mixBlendMode: 'luminosity'
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-30"
+          style={{ filter: 'brightness(0.4)' }}
+        >
+          <source src="/videos/diamonds.mp4" type="video/mp4" />
+        </video>
       </div>
-
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-cormorant font-light mb-12 text-white">
-          IO Sì Gioielli
+      <div className="relative z-10 text-center px-4">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8">
+          <span className="iosi-underline">IO Sì</span>
         </h1>
-        <div className="h-[100px] flex items-center justify-center mb-12">
-          <span 
-            ref={el}
-            className="text-xl md:text-2xl lg:text-3xl text-white/80 font-light tracking-wider"
-          ></span>
+        <div className="text-xl md:text-2xl lg:text-3xl text-white font-light">
+          <span ref={el} />
         </div>
-        <p className="text-sm md:text-base text-white/60 max-w-xl mx-auto tracking-wide font-light">
-          Creiamo gioielli che raccontano storie di bellezza sostenibile, 
-          unendo l'eccellenza artigianale italiana con i diamanti del futuro.
-        </p>
       </div>
     </div>
   );
