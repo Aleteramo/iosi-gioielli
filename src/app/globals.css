@@ -3,19 +3,209 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 0, 0, 0;
+  --cursor-color: #D4AF37;
+  --golden: #D4AF37;
+  --golden-light: #F4D03F;
+  --golden-dark: #B8860B;
+  --black: #000000;
+  --font-cormorant: 'Cormorant', serif;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: var(--font-cormorant);
+}
+
+/* Hide default cursor when custom cursor is active */
+* {
+  cursor: none !important;
+}
+
+/* But show it on touch devices */
+@media (hover: none) {
+  * {
+    cursor: auto !important;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--golden);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--golden-light);
+}
+
+/* Primary Button */
+.btn-primary {
+  @apply bg-black border border-golden text-golden py-3 px-6 relative overflow-hidden transition-all duration-300;
+}
+
+.btn-primary::before {
+  content: '';
+  @apply absolute inset-0 bg-golden transform scale-x-0 origin-left transition-transform duration-300;
+}
+
+.btn-primary:hover::before {
+  @apply scale-x-100;
+}
+
+.btn-primary span {
+  @apply relative z-10 transition-colors duration-300;
+}
+
+.btn-primary:hover {
+  @apply text-black;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(to right, var(--golden), var(--golden-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient {
+  background: linear-gradient(to right, rgba(212, 175, 55, 0.1), rgba(184, 134, 11, 0.1));
+}
+
+.hover-underline {
+  position: relative;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--golden);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.hover-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--golden);
+  color: var(--black);
+}
+
+/* Typography */
+.font-cormorant {
+  font-family: var(--font-cormorant);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-cormorant text-golden;
+}
+
+/* Container */
+.container-custom {
+  @apply container mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Transitions */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+/* Dark Mode Optimizations */
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: brightness(0.8) contrast(1.2);
+  }
+}
+
+/* Custom Colors */
+.text-golden {
+  color: var(--golden);
+}
+
+.bg-golden {
+  background-color: var(--golden);
+}
+
+.border-golden {
+  border-color: var(--golden);
+}
+
+/* Hover Effects */
+.hover-golden:hover {
+  color: var(--golden);
+  transition: color 0.3s ease;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
 }

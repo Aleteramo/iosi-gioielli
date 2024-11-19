@@ -1,101 +1,121 @@
-import Image from "next/image";
+'use client';
+
+import React, { useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import Logo from '../components/Logo';
+
+const TypedIntro = dynamic(() => import('../components/TypedIntro'), {
+  ssr: false
+});
+const ProductCard = dynamic(() => import('../components/ProductCard'), {
+  ssr: false
+});
+const CollectionSlider = dynamic(() => import('../components/CollectionSlider'), {
+  ssr: false
+});
+
+const collections = [
+  {
+    id: 1,
+    name: 'Collezione Noir',
+    description: 'Un viaggio nell\'oscurità più preziosa, dove ogni diamante racconta una storia segreta',
+    image: '/images/IMG_1898.jpg'
+  },
+  {
+    id: 2,
+    name: 'Collezione Mystique',
+    description: 'La perfezione si nasconde nell\'ombra, rivelando la sua bellezza solo agli occhi più attenti',
+    image: '/images/IMG_1899.jpg'
+  },
+  {
+    id: 3,
+    name: 'Collezione Shadow',
+    description: 'Quando l\'eleganza incontra il mistero, nascono creazioni che sfidano il tempo',
+    image: '/images/IMG_1900.jpg'
+  }
+];
+
+const navigationCards = [
+  {
+    href: "/collezioni",
+    title: "Collezioni →",
+    description: "Esplora il nostro universo di creazioni misteriose"
+  },
+  {
+    href: "/su-di-noi",
+    title: "Essenza →",
+    description: "Scopri il segreto dietro ogni nostra creazione"
+  },
+  {
+    href: "/contatti",
+    title: "Contatti →",
+    description: "Inizia il tuo viaggio nel mondo IO Sì"
+  },
+  {
+    href: "/journal",
+    title: "Journal →",
+    description: "Storie dall'ombra del lusso contemporaneo"
+  }
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      AOS.init({
+        duration: 1200,
+        once: true,
+        easing: 'ease-out',
+      });
+    }
+  }, []);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  return (
+    <div className="min-h-screen bg-black">
+      <div className="flex flex-col min-h-screen">
+        {/* Header with Logo */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black via-black/80 to-transparent">
+          <div className="flex justify-center py-8">
+            <Logo />
+          </div>
+        </header>
+
+        {/* Hero Section with TypedIntro */}
+        <section className="flex-grow">
+          <TypedIntro />
+        </section>
+
+        {/* Product Cards Section */}
+        <section className="py-24 bg-gradient-to-b from-black to-zinc-900">
+          <div className="container mx-auto px-4">
+            <div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              {navigationCards.map(card => (
+                <ProductCard key={card.href} {...card} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Collections Section */}
+        <section className="py-24 bg-zinc-900">
+          <div className="container mx-auto px-4">
+            <h2 
+              className="text-3xl md:text-4xl font-cormorant text-center mb-16 text-golden"
+              data-aos="fade-up"
+            >
+              Le Nostre Collezioni
+            </h2>
+            <div data-aos="fade-up" data-aos-delay="200">
+              <CollectionSlider collections={collections} />
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
