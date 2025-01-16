@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 
-export default function ContattiPage() {
+function ContactForm() {
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = React.useState({
     name: '',
     email: '',
     phone: '',
-    product: searchParams.get('product') || '',
+    product: searchParams?.get('product') || '',
     message: ''
   });
 
@@ -26,9 +26,102 @@ export default function ContattiPage() {
     e.preventDefault();
     // TODO: Implement form submission logic
     console.log('Form submitted:', formData);
-    // Add actual form submission, validation, and feedback
   };
 
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
+          Nome Completo
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          required
+          className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
+          placeholder="Il tuo nome"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
+          placeholder="la tua email"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="phone" className="block text-sm text-gray-400 mb-2">
+          Telefono (Opzionale)
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value={formData.phone}
+          onChange={handleInputChange}
+          className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
+          placeholder="il tuo numero di telefono"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="product" className="block text-sm text-gray-400 mb-2">
+          Gioiello di Interesse
+        </label>
+        <input
+          type="text"
+          id="product"
+          name="product"
+          value={formData.product}
+          onChange={handleInputChange}
+          className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
+          placeholder="Nome del gioiello (se applicabile)"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
+          Messaggio
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          required
+          rows={4}
+          className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
+          placeholder="Scrivi qui il tuo messaggio..."
+        />
+      </div>
+
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        type="submit"
+        className="w-full bg-golden text-black py-3 px-8 rounded-lg font-medium 
+          hover:bg-golden/90 transition-colors duration-200 uppercase tracking-wider"
+      >
+        Invia Richiesta
+      </motion.button>
+    </form>
+  );
+}
+
+export default function ContattiPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="container mx-auto px-4 py-24">
@@ -48,102 +141,16 @@ export default function ContattiPage() {
           </p>
         </motion.div>
 
-        {/* Contact Form */}
+        {/* Contact Form with Suspense */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-xl mx-auto bg-zinc-900 p-8 rounded-xl shadow-lg"
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
-                Nome Completo
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
-                placeholder="Il tuo nome"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
-                placeholder="la tua email"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm text-gray-400 mb-2">
-                Telefono (Opzionale)
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
-                placeholder="il tuo numero di telefono"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="product" className="block text-sm text-gray-400 mb-2">
-                Gioiello di Interesse
-              </label>
-              <input
-                type="text"
-                id="product"
-                name="product"
-                value={formData.product}
-                onChange={handleInputChange}
-                className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
-                placeholder="Nome del gioiello (se applicabile)"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
-                Messaggio
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                rows={4}
-                className="w-full bg-black/30 border border-zinc-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-golden transition-colors"
-                placeholder="Scrivi qui il tuo messaggio..."
-              />
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="w-full bg-golden text-black py-3 px-8 rounded-lg font-medium 
-                hover:bg-golden/90 transition-colors duration-200 uppercase tracking-wider"
-            >
-              Invia Richiesta
-            </motion.button>
-          </form>
+          <Suspense fallback={<div>Caricamento...</div>}>
+            <ContactForm />
+          </Suspense>
         </motion.div>
 
         {/* Contact Information */}
@@ -160,10 +167,10 @@ export default function ContattiPage() {
             <div>
               <p className="text-gray-300">Email</p>
               <a 
-                href="mailto:sales@gemmaeuropa.com" 
+                href="mailto:info@iosigioielli.com" 
                 className="text-white hover:text-golden transition-colors"
               >
-                sales@gemmaeuropa.com
+                info@iosigioielli.com
               </a>
             </div>
             <div>
@@ -172,7 +179,7 @@ export default function ContattiPage() {
                 href="tel:+390123456789" 
                 className="text-white hover:text-golden transition-colors"
               >
-                +0223185211
+                +39 012 345 6789
               </a>
             </div>
           </div>
