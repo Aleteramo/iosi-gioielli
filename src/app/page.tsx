@@ -35,6 +35,12 @@ const collections = [
     name: 'Collezione Shadow',
     description: 'Quando l\'eleganza incontra il mistero, nascono creazioni che sfidano il tempo',
     image: '/images/IMG_1900.jpg'
+  },
+  {
+    id: 4,
+    name: 'Collana Stella Cadente',
+    description: 'Raffinata collana in oro rosa 18kt con diamante lab grown pendente. Un gioiello che cattura la magia di una stella cadente in un design moderno ed elegante.',
+    image: '/images/necklaces/stella-cadente-1.jpg'
   }
 ];
 

@@ -1,6 +1,8 @@
 {
+  "/su-di-noi/essenza/page": "app/su-di-noi/essenza/page.js",
   "/page": "app/page.js",
   "/lab-grown/page": "app/lab-grown/page.js",
-  "/collezioni/page": "app/collezioni/page.js",
-  "/collezioni/[category]/[slug]/page": "app/collezioni/[category]/[slug]/page.js"
+  "/contatti/page": "app/contatti/page.js",
+  "/collezioni/[category]/[slug]/page": "app/collezioni/[category]/[slug]/page.js",
+  "/collezioni/page": "app/collezioni/page.js"
 }

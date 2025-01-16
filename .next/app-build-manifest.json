@@ -1,36 +1,51 @@
 {
   "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/collezioni/[category]/[slug]/page": [
+    "/collezioni/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/collezioni/[category]/[slug]/page.js"
+      "static/chunks/app/collezioni/page.js"
     ],
     "/collezioni/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/collezioni/layout.js"
     ],
+    "/collezioni/[category]/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/collezioni/[category]/[slug]/page.js"
+    ],
     "/lab-grown/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/lab-grown/page.js"
     ],
-    "/collezioni/page": [
+    "/collezioni/[category]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/collezioni/page.js"
+      "static/chunks/app/collezioni/[category]/page.js"
     ],
-    "/page": [
+    "/su-di-noi/essenza/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/page.css",
-      "static/chunks/app/page.js"
+      "static/chunks/app/su-di-noi/essenza/page.js"
+    ],
+    "/contatti/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contatti/page.js"
     ]
   }
 }
